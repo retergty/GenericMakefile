@@ -7,6 +7,8 @@ CC ?= gcc
 SRC_EXT = c
 # Path to the source directory, relative to the makefile
 SRC_PATH = .
+# Remove / in dierectory
+SRC_PATH := $(patsubst %/,%,$(SRC_PATH))
 # Space-separated pkg-config libraries used by this project
 LIBS =
 # General compiler flags
@@ -92,6 +94,7 @@ endif
 rwildcard = $(foreach d, $(wildcard $1*), $(call rwildcard,$d/,$2) \
 						$(filter $(subst *,%,$2), $d))
 ifeq ($(SOURCES),)
+	SRC_PATH := $(patsubst %,%/,$(SRC_PATH))
 	SOURCES := $(call rwildcard, $(SRC_PATH), *.$(SRC_EXT))
 endif
 
